@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, Button, StyleSheet } from 'react-native';
 import HeaderStart from '../components/HeaderStart';
 import InputSaucer from '../components/InputSaucer';
+import { createAPI, saucer } from '../service/ServiceSaucer'; 
+
 
 const NewSaucer = () => {
     const [name, setName] = useState('');
@@ -18,7 +20,7 @@ const NewSaucer = () => {
         setPreparation('');
 };
 
-    const handleSave = () => {
+    const handleSave = async () => {
     const data = {
         name,
         category,
@@ -26,13 +28,19 @@ const NewSaucer = () => {
         preparation,
     };
 
-    // Aquí se realizaría la lógica de guardar los datos
-    // en lugar de usar el fetch
+    try {
+        const response = await createAPI(saucer, data);
+      // Lógica adicional después de guardar los datos
 
-    setName('');
-    setCategory('');
-    setPrice('');
-    setPreparation('');
+      // Restablecer los campos después de guardar
+        setName('');
+        setCategory('');
+        setPrice('');
+        setPreparation('');
+    } catch (error) {
+      // Manejo de errores en caso de que la solicitud falle
+        console.log('Error al guardar los platillos:', error);
+    }
 };
 
     return (
