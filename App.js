@@ -5,6 +5,7 @@ import React from 'react';
 import Home from './screens/Home';
 import NewSaucer from './screens/NewSaucer';
 import ListSaucer from './screens/ListSaucer';
+import Order from './screens/Order';
 
 
 
@@ -17,6 +18,7 @@ export default function App() {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="NewSaucer" component={NewSaucer} />
         <Stack.Screen name="ListSaucer" component={ListSaucer} />
+        <Stack.Screen name="Order" component={Order} />
 
       </Stack.Navigator>
     </NavigationContainer>
