@@ -1,19 +1,26 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { View, StyleSheet } from 'react-native';
 import Petition from '../components/Petition';
 import CymbalReview from '../components/CymbalReview';
 import HeaderStart from '../components/HeaderStart';
 
+
 const Order = () => {
+  const [order, setOrder] = useState([]);
+
+  const handleAddToOrder = (platilloName) => {
+    setOrder([...order, platilloName]);
+  };
+
   return (
     <View style={styles.container}>
       <HeaderStart />
       <View style={styles.contentContainer}>
         <View style={styles.petition}>
-          <Petition />
+          <Petition order={order}/>
         </View>
         <View style={styles.review}>
-          <CymbalReview />
+          <CymbalReview addToOrder={handleAddToOrder} />
         </View>
       </View>
     </View>
@@ -32,7 +39,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FED151',
+    backgroundColor: '#DCDAD4',
   },
   review: {
     flex: 1,
@@ -43,3 +50,5 @@ const styles = StyleSheet.create({
 });
 
 export default Order;
+
+
