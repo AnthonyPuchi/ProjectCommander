@@ -1,10 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const Petition = () => {
+const Petition = ({ order }) => {
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>Pedido</Text>
+            <Text style={styles.title}>Pedido</Text>
+            {order.map((platillo, index) => (
+                <Text key={index} style={styles.orderItem}>
+                    {platillo}
+                </Text>
+            ))}
         </View>
     );
 };
@@ -12,14 +17,14 @@ const Petition = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FED151',
+        backgroundColor: '#DCDAD4',
         justifyContent: 'center',
         alignItems: 'center',
     },
     text: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: 'white',
+        color: 'black',
     },
 });
 
