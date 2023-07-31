@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import CategoryButtons from '../components/CategoryButtons'
+import Seeker from './Seeker';
+import ImageItem from './ImageItem';
 
-const CymbalReview = () => {
+const CymbalReview = ({ addToOrder }) => {
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const handleSearch = query => {
+        setSearchQuery(query);
+    };
+
     return (
         <View style={styles.container}>
-            <View style={styles.category}>
-                <CategoryButtons/>
+            <Seeker onSearch={handleSearch} />
+            <View style={styles.gallery}>
+            <ImageItem searchQuery={''} addToOrder={addToOrder} />
             </View>
         </View>
     );
@@ -19,9 +27,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-    category: {
+    gallery: {
         flex: 1,
+        width: '100%',
+        paddingHorizontal: 16,
+        paddingTop: 8,
     },
 });
 
 export default CymbalReview;
+
