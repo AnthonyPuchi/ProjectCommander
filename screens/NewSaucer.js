@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Button, StyleSheet, Alert, Picker } from 'react-native';
 import HeaderStart from '../components/HeaderStart';
 import Input from '../components/Input';
-import { createAPI, saucer } from '../service/ServiceSaucer';
+import { createAPI, saucer, saucerProteins, proteins } from '../service/ServiceSaucer'; 
 import { getAPI } from '../service/ServiceSaucer';
 
 const NewSaucer = () => {
@@ -11,8 +11,8 @@ const NewSaucer = () => {
     const [price, setPrice] = useState('');
     const [preparation, setPreparation] = useState('');
     const [proteinId, setProteinId] = useState('');
-    const [quantity, setQuantity] = useState(1); 
-    const [proteins, setProteins] = useState([]);
+    const [quantity, setQuantity] = useState(1);
+    const [proteinsMeats, setProteinsMeats] = useState([]);
 
     useEffect(() => {
         fetchData();
@@ -20,8 +20,8 @@ const NewSaucer = () => {
 
     const fetchData = async () => {
         try {
-            const saucerData = await getAPI('http://localhost:8081/proteins');
-            setProteins(saucerData);
+            const saucerData = await getAPI(proteins);
+            setProteinsMeats(saucerData);
         } catch (error) {
             console.error('Error fetching saucer data:', error);
         }
@@ -32,28 +32,36 @@ const NewSaucer = () => {
         setCategory('');
         setPrice('');
         setPreparation('');
-        setQuantity(1); 
+        setQuantity(1);
     };
 
     const handleSave = async () => {
-        const data = {
+        const saucerData = {
             name,
             category,
             price,
             preparation,
-            quantity,
         };
-
+        console.log(saucerData)
         try {
-            const response = await createAPI(saucer, data);
+            const saucerResponse = await createAPI(saucer, saucerData);
             setName('');
             setCategory('');
             setPrice('');
             setPreparation('');
-            setQuantity(1); 
-            Alert.alert('Success', 'Saucer saved successfully');
+            setQuantity(1);
+
+            const saucerProteinData = {
+                saucerId: saucerResponse.id,
+                proteinsId: proteinId,
+                quantity
+            };
+            console.log(saucerProteinData)
+            const proteinResponse = await createAPI(saucerProteins, saucerProteinData);
+
+            Alert.alert('Success', 'Saucer and protein saved successfully');
         } catch (error) {
-            console.log('Error al guardar los platillos:', error);
+            console.log('Error al guardar los platillos y proteínas:', error);
         }
     };
 
@@ -66,27 +74,27 @@ const NewSaucer = () => {
             <HeaderStart />
             <View style={styles.newSaucerContainer}>
                 <Input
-                    label="Name"
-                    placeholder="Name"
+                    label="Nombre del platillo"
+                    placeholder="Nombre del platillo"
                     value={name}
                     onChangeText={text => setName(text)}
                 />
                 <Input
-                    label="Category"
-                    placeholder="Category"
+                    label="Categoría"
+                    placeholder="Categoría"
                     value={category}
                     onChangeText={text => setCategory(text)}
                 />
                 <Input
-                    label="Price"
-                    placeholder="Price"
+                    label="Precio"
+                    placeholder="Precio"
                     value={price}
                     onChangeText={text => setPrice(text)}
                     keyboardType="numeric"
                 />
                 <Input
-                    label="Preparation"
-                    placeholder="Preparation"
+                    label="Preparación"
+                    placeholder="Preparación"
                     value={preparation}
                     onChangeText={text => setPreparation(text)}
                 />
@@ -95,8 +103,8 @@ const NewSaucer = () => {
                     style={styles.picker}
                     onValueChange={(itemValue) => setProteinId(itemValue)}
                 >
-                    <Picker.Item label="Select Proteins" value="" />
-                    {proteins.map(item => (
+                    <Picker.Item label="Seleccionar Carne" value="" />
+                    {proteinsMeats.map(item => (
                         <Picker.Item label={item.name} value={item.id} key={item.id} />
                     ))}
                 </Picker>
@@ -107,11 +115,10 @@ const NewSaucer = () => {
                     onChangeText={text => setQuantity(Number(text))}
                     keyboardType="numeric"
                 />
-                {/* Botón para incrementar la cantidad de porciones */}
-                <Button title="Increment" onPress={handleIncrement} color="#4CAF50" />
+                <Button title="Aumentar Porción" onPress={handleIncrement} color="#4CAF50" />
                 <View style={styles.buttonContainer}>
-                    <Button title="Cancel" onPress={handleCancel} color="red" />
-                    <Button title="Save" onPress={handleSave} color="green" />
+                    <Button title="Cancelar" onPress={handleCancel} color="red" />
+                    <Button title="Guardar" onPress={handleSave} color="green" />
                 </View>
             </View>
         </View>
@@ -121,7 +128,7 @@ const NewSaucer = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#BCB88A',
+        backgroundColor: '#4EC28E',
     },
     newSaucerContainer: {
         flex: 1,
