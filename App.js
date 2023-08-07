@@ -8,6 +8,7 @@ import NewMeats from './screens/NewMeats';
 import ListSaucer from './screens/ListSaucer';
 import Order from './screens/Order';
 import ListPortions from './screens/ListPortions';
+import ListProteins from './screens/ListProteins';
 
 
 
@@ -23,10 +24,12 @@ export default function App() {
         <Stack.Screen name="ListSaucer" component={ListSaucer} />
         <Stack.Screen name="Order" component={Order} />
         <Stack.Screen name="ListPortions" component={ListPortions} />
+        <Stack.Screen name="ListProteins" component={ListProteins} />
 
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
+
 
 
